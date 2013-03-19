@@ -1,16 +1,16 @@
 require 'sass'
 
 module SCSSLint
-  class Linter::SingleLinePerSelector < Linter
+  class Linter::EmptyRuleLinter < Linter
     include LinterRegistry
 
     def visit_rule(node)
-      add_lint(node) unless node.rule.grep(/,[^\n]/).empty?
+      add_lint(node) if node.children.empty?
       yield # Continue linting children
     end
 
     def description
-      'Each selector should be on its own line'
+      'Empty rule'
     end
   end
 end
